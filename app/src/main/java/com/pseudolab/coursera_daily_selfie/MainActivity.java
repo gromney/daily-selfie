@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.GridView;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -22,6 +23,11 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        GridView grid = (GridView) findViewById(R.id.gridview);
+        GridAdapter adapter = new GridAdapter(this);
+
+        grid.setAdapter(adapter);
     }
 
 
