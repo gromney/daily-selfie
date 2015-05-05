@@ -1,13 +1,23 @@
 package com.pseudolab.coursera_daily_selfie;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class MainActivity extends ActionBarActivity {
 
+    private static final int TAKE_PHOTO = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +40,36 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id){
+            case (R.id.action_settings):
+                return true;
+            case (R.id.action_camera):
+                takeNewPhoto();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void takeNewPhoto(){
+        String timeTaken = new SimpleDateFormat("yyyyMMdd_HHmmss")
+                .format(new Date());
+        String photoFileName = "SELFIE_"+timeTaken;
+        File folder = new File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                + "dailySelfie/");
+
+        File photo = new File(folder.getAbsolutePath()+photoFileName+".jpg");
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
+        startActivityForResult(intent,TAKE_PHOTO);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && requestCode == TAKE_PHOTO){
+
+        }
     }
 }
