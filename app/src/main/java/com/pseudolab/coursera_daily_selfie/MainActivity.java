@@ -1,6 +1,8 @@
 package com.pseudolab.coursera_daily_selfie;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
@@ -19,6 +21,8 @@ import java.util.Date;
 public class MainActivity extends ActionBarActivity {
 
     private static final int TAKE_PHOTO = 0;
+    private static final long TWO_MINUTES = 2 * 60 * 1000;
+    private PendingIntent pendingIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +32,22 @@ public class MainActivity extends ActionBarActivity {
         GridAdapter adapter = new GridAdapter(this);
 
         grid.setAdapter(adapter);
+
+        createPendingIntent();
+        createSelfieReminders();
+    }
+
+    private void createPendingIntent() {
+        Intent notificationIntent = new Intent(MainActivity.this,NotificationReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(MainActivity.this,0,notificationIntent,0);
+    }
+    private void createSelfieReminders() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                System.currentTimeMillis() +TWO_MINUTES,
+                TWO_MINUTES,
+                pendingIntent);
     }
 
 
