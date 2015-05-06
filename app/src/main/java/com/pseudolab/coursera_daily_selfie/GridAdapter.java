@@ -1,6 +1,7 @@
 package com.pseudolab.coursera_daily_selfie;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -53,7 +54,7 @@ public class GridAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         View view = convertView;
         ImageView photo;
@@ -63,6 +64,16 @@ public class GridAdapter extends BaseAdapter {
             view = mInflater.inflate(R.layout.grid_item, parent,false);
             view.setTag(R.id.photo,view.findViewById(R.id.photo));
             view.setTag(R.id.date_taken,view.findViewById(R.id.date_taken));
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext,GridItem.class);
+
+                    intent.putExtra("IMAGE_URL",selfies.get(position).getImageUrl().toString());
+
+                    mContext.startActivity(intent);
+                }
+            });
         }
         photo = (ImageView) view.getTag(R.id.photo);
         dateTaken = (TextView) view.getTag(R.id.date_taken);

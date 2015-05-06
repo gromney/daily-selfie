@@ -11,9 +11,8 @@
         android:layout_height="fill_parent"
         android:horizontalSpacing="0dp"
         android:verticalSpacing="0dp"
-        android:columnWidth="8dp"
 
         android:numColumns="3"
-        android:stretchMode="spacingWidth"/>
+        android:stretchMode="columnWidth"/>
 
 </RelativeLayout>
